@@ -31,6 +31,6 @@ public class SortingTester<T extends Comparable<T>> {
                 .average()
                 .orElse(0);
 
-        System.out.printf("\t\tTiempo promedio: %s ms\n", average); //hola
+        System.out.printf("\t\tTiempo promedio: %s ms\n", average); //ho
     }
 }
