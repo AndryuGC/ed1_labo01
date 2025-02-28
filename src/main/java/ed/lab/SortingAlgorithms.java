@@ -1,6 +1,7 @@
 package ed.lab;
 import java.util.Random;
 
+//Andry
 public class SortingAlgorithms {
     public static <T extends Comparable<T>> void highPivotQuickSort(T[] array) {
         quickSort(array, 0, array.length - 1, "high");
