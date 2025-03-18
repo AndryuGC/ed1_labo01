@@ -1,5 +1,5 @@
 package ed.lab;
-
+//Commits
 public class Main {
     private static final ArrayGenerator<Integer> sortedArrayGenerator = length -> {
         Integer[] array = new Integer[length];
