@@ -1,50 +1,79 @@
 package ed.lab;
-import java.util.Random;
 
-//AndryuGC
 public class Main {
+    private static final ArrayGenerator<Integer> sortedArrayGenerator = length -> {
+        Integer[] array = new Integer[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = i + 1; // Ascendente
+        }
+        return array;
+    };
+
+    private static final ArrayGenerator<Integer> invertedArrayGenerator = length -> {
+        Integer[] array = new Integer[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = length - i; // Descendente
+        }
+        return array;
+    };
+
+    private static final ArrayGenerator<Integer> randomArrayGenerator = length -> {
+        Integer[] array = new Integer[length];
+        java.util.Random random = new java.util.Random();
+        for (int i = 0; i < length; i++) {
+            array[i] = random.nextInt(length * 10); // Aleatorio
+        }
+        return array;
+    };
+
+    // Se asignan referencias a los métodos de SortingAlgorithms
+    private static final QuickSort<Integer> highPivotQuickSort = SortingAlgorithms::highPivotQuickSort;
+    private static final QuickSort<Integer> lowPivotQuickSort = SortingAlgorithms::lowPivotQuickSort;
+    private static final QuickSort<Integer> randomPivotQuickSort = SortingAlgorithms::randomPivotQuickSort;
+
     public static void main(String[] args) {
-        ArrayGenerator<Integer> sortedArrayGenerator = (length) -> {
-            Integer[] array = new Integer[length];
-            for (int i = 0; i < length; i++) {
-                array[i] = i;
-            }
-            return array;
-        };
+        final SortingTester<Integer> tester = new SortingTester<>();
 
-        ArrayGenerator<Integer> invertedArrayGenerator = (length) -> {
-            Integer[] array = new Integer[length];
-            for (int i = 0; i < length; i++) {
-                array[i] = length - 1 - i;
-            }
-            return array;
-        };
+        System.out.println("Ordenando un arreglo ordenado:");
+        tester.testSorting(sortedArrayGenerator, highPivotQuickSort, "Último elemento como pivote");
+        tester.testSorting(sortedArrayGenerator, lowPivotQuickSort, "Primer elemento como pivote");
+        tester.testSorting(sortedArrayGenerator, randomPivotQuickSort, "Elemento aleatorio como pivote");
+        System.out.println("================================");
 
-        ArrayGenerator<Integer> randomArrayGenerator = (length) -> {
-            Integer[] array = new Integer[length];
-            Random rand = new Random();
-            for (int i = 0; i < length; i++) {
-                array[i] = rand.nextInt(1000);
-            }
-            return array;
-        };
+        System.out.println("Ordenando un arreglo invertido:");
+        tester.testSorting(invertedArrayGenerator, highPivotQuickSort, "Último elemento como pivote");
+        tester.testSorting(invertedArrayGenerator, lowPivotQuickSort, "Primer elemento como pivote");
+        tester.testSorting(invertedArrayGenerator, randomPivotQuickSort, "Elemento aleatorio como pivote");
+        System.out.println("================================");
 
-        // Uso de referencias a métodos en SortingAlgorithms
-        QuickSort<Integer> highPivotQuickSort = SortingAlgorithms::highPivotQuickSort;
-        QuickSort<Integer> lowPivotQuickSort = SortingAlgorithms::lowPivotQuickSort;
-        QuickSort<Integer> randomPivotQuickSort = SortingAlgorithms::randomPivotQuickSort;
-
-        // Ejecutar pruebas de ordenamiento
-        testSortingAlgorithm("High Pivot QuickSort", sortedArrayGenerator, highPivotQuickSort);
-        testSortingAlgorithm("Low Pivot QuickSort", sortedArrayGenerator, lowPivotQuickSort);
-        testSortingAlgorithm("Random Pivot QuickSort", sortedArrayGenerator, randomPivotQuickSort);
+        System.out.println("Ordenando un arreglo aleatorio:");
+        tester.testSorting(randomArrayGenerator, highPivotQuickSort, "Último elemento como pivote");
+        tester.testSorting(randomArrayGenerator, lowPivotQuickSort, "Primer elemento como pivote");
+        tester.testSorting(randomArrayGenerator, randomPivotQuickSort, "Elemento aleatorio como pivote");
+        System.out.println("================================");
     }
 
-    public static void testSortingAlgorithm(String name, ArrayGenerator<Integer> generator, QuickSort<Integer> sorter) {
-        Integer[] array = generator.generate(10000);
-        long startTime = System.nanoTime();
-        sorter.sort(array);
-        long endTime = System.nanoTime();
-        System.out.println(name + " tomó: " + (endTime - startTime) / 1e6 + " ms");
+    public static QuickSort<Integer> getHighPivotQuickSort() {
+        return highPivotQuickSort;
+    }
+
+    public static QuickSort<Integer> getLowPivotQuickSort() {
+        return lowPivotQuickSort;
+    }
+
+    public static QuickSort<Integer> getRandomPivotQuickSort() {
+        return randomPivotQuickSort;
+    }
+
+    public static ArrayGenerator<Integer> getSortedArrayGenerator() {
+        return sortedArrayGenerator;
+    }
+
+    public static ArrayGenerator<Integer> getInvertedArrayGenerator() {
+        return invertedArrayGenerator;
+    }
+
+    public static ArrayGenerator<Integer> getRandomArrayGenerator() {
+        return randomArrayGenerator;
     }
 }

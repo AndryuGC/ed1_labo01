@@ -1,8 +1,9 @@
 package ed.lab;
+
 import java.util.Random;
 
-//Andry
 public class SortingAlgorithms {
+
     public static <T extends Comparable<T>> void highPivotQuickSort(T[] array) {
         quickSort(array, 0, array.length - 1, "high");
     }
@@ -24,21 +25,15 @@ public class SortingAlgorithms {
     }
 
     private static <T extends Comparable<T>> int partition(T[] array, int low, int high, String pivotType) {
-        int pivotIndex;
-        switch (pivotType) {
-            case "low":
-                pivotIndex = low;
-                break;
-            case "random":
-                pivotIndex = new Random().nextInt(high - low + 1) + low;
-                break;
-            case "high":
-            default:
-                pivotIndex = high;
-                break;
-        }
+        int pivotIndex = switch (pivotType) {
+            case "high" -> high;
+            case "low" -> low;
+            case "random" -> new Random().nextInt(high - low + 1) + low;
+            default -> high;
+        };
+
         T pivot = array[pivotIndex];
-        swap(array, pivotIndex, high); // Mover pivote al final
+        swap(array, pivotIndex, high);
         int i = low - 1;
 
         for (int j = low; j < high; j++) {
@@ -47,11 +42,12 @@ public class SortingAlgorithms {
                 swap(array, i, j);
             }
         }
+
         swap(array, i + 1, high);
         return i + 1;
     }
 
-    private static <T> void swap(T[] array, int i, int j) {
+    private static <T extends Comparable<T>> void swap(T[] array, int i, int j) {
         T temp = array[i];
         array[i] = array[j];
         array[j] = temp;
